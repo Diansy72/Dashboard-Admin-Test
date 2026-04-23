@@ -1,0 +1,141 @@
+{
+  "Navbar": {
+    "home": "Home",
+    "tourPackages": "Tour Packages",
+    "cars": "Vehicles",
+    "whyUs": "Why Us",
+    "about": "About",
+    "login": "Login"
+  },
+  "Hero": {
+    "location": "Yogyakarta, Indonesia",
+    "title1": "UNLOCK YOUR",
+    "title2": "TRAVEL",
+    "title3": "EXPERIENCE",
+    "description": "Explore the beauty of Yogyakarta and its surroundings with the best selection of vehicles. Easy rental, affordable prices, unforgettable journey.",
+    "btnVehicles": "View Vehicles",
+    "btnHowItWorks": "How it Works",
+    "stats": {
+      "customers": "Happy Customers",
+      "vehicles": "Vehicle Fleet",
+      "rating": "Star Rating"
+    },
+    "bookingAvailable": "Booking Available",
+    "bookingDesc": "Select dates & book"
+  },
+  "HowItWorks": {
+    "subtitle": "Fast & Simple Process",
+    "title": "How it Works",
+    "step1": {
+      "title": "Select Vehicle & Date",
+      "desc": "Choose your desired vehicle and set the rental date according to your travel needs."
+    },
+    "step2": {
+      "title": "Confirm via WhatsApp",
+      "desc": "Confirm your booking via WhatsApp for a fast and easy process."
+    },
+    "step3": {
+      "title": "Pick Up & Drive",
+      "desc": "Pick up the vehicle at the agreed location and start your adventure!"
+    }
+  },
+  "Destinations": {
+    "subtitle": "Explore",
+    "title": "Recommended Destinations",
+    "desc": "Find the best destinations you can visit with our rental vehicles",
+    "exploreMore": "Explore More",
+    "items": {
+      "1": {
+        "title": "Ancient Wonders & Cultural Trails",
+        "desc": "Explore the breathtaking historical temples, palaces, and cultural trails of Yogyakarta.",
+        "loc": "Yogyakarta"
+      },
+      "2": {
+        "title": "Borobudur World Heritage",
+        "desc": "Visit Borobudur Temple, a world wonder that holds the story of ancient Buddhist civilization.",
+        "loc": "Magelang"
+      },
+      "3": {
+        "title": "South Coast Charm",
+        "desc": "Enjoy the beauty of the southern beaches, mountains, and the stunning natural charm of Yogyakarta.",
+        "loc": "Gunung Kidul"
+      }
+    }
+  },
+  "Vehicles": {
+    "subtitle": "Our Fleet",
+    "title": "Best Vehicles",
+    "tabs": {
+      "all": "All",
+      "motorcycle": "Motorcycle",
+      "car": "Car"
+    },
+    "btnBook": "Book",
+    "tagPerDay": "/day"
+  },
+  "WhyUs": {
+    "subtitle": "Benefits",
+    "title": "Why Choose Us",
+    "desc": "We provide the best vehicle rental services with premium quality and professional service.",
+    "items": {
+      "1": {
+        "title": "Vehicle Fleet",
+        "desc": "50+ well-maintained vehicles ready to accompany your journey"
+      },
+      "2": {
+        "title": "Happy Customers",
+        "desc": "500+ satisfied customers with our rental services"
+      },
+      "3": {
+        "title": "Best Price",
+        "desc": "Competitive and transparent prices with no hidden fees"
+      },
+      "4": {
+        "title": "Star Rating",
+        "desc": "4.9/5 rating from our customers on Google Reviews"
+      }
+    }
+  },
+  "Stats": {
+    "tagline": "Car Rental Service",
+    "stat1": "Total Rentals",
+    "stat2": "Easy Booking",
+    "trust": "Trusted since 2020",
+    "support": "24/7 Support",
+    "includesTitle": "Vehicles Includes",
+    "includeItems": [
+      "Full insurance coverage",
+      "24/7 customer support",
+      "Free cancellation",
+      "GPS navigation included",
+      "Clean & sanitized",
+      "Roadside assistance"
+    ],
+    "btnBooking": "Booking Now"
+  },
+  "Testimonials": {
+    "subtitle": "Testimonials",
+    "title": "What Our Customers Say",
+    "desc": "Hear firsthand experiences from our satisfied customers",
+    "items": {
+      "1": {
+        "text": "LA Group is highly recommended! The car was clean, well-maintained, and very affordable. The booking process via WhatsApp was also super easy. Will definitely rent again!"
+      },
+      "2": {
+        "text": "I've rented here 3 times and I'm always satisfied. The vehicles are always in prime condition, the staff is friendly, and delivery is on time. Top notch!"
+      },
+      "3": {
+        "text": "Rented an Avanza for a family trip to Jogja. Comfortable car, cold AC, and got a special rate for a 3-day rental. Thank you LA Group!"
+      }
+    }
+  },
+  "Footer": {
+    "desc": "Trusted vehicle rental provider in Yogyakarta. Serving car and motorcycle rentals for tourism, business, and personal needs.",
+    "quickLinks": "Quick Links",
+    "contactUs": "Contact Us",
+    "officeHours": "Office Hours",
+    "copyright": "© 2026 LA Group & Andika Trans. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  }
+}

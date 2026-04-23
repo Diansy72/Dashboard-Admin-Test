@@ -1,0 +1,141 @@
+{
+  "Navbar": {
+    "home": "Home",
+    "tourPackages": "Paket Wisata",
+    "cars": "Kendaraan",
+    "whyUs": "Mengapa Kami",
+    "about": "Tentang",
+    "login": "Masuk"
+  },
+  "Hero": {
+    "location": "Yogyakarta, Indonesia",
+    "title1": "BUKA",
+    "title2": "PENGALAMAN",
+    "title3": "WISATA ANDA",
+    "description": "Jelajahi keindahan Yogyakarta dan sekitarnya dengan kendaraan pilihan terbaik. Rental mudah, harga terjangkau, perjalanan tak terlupakan.",
+    "btnVehicles": "Lihat Kendaraan",
+    "btnHowItWorks": "Cara Booking",
+    "stats": {
+      "customers": "Happy Customers",
+      "vehicles": "Unit Kendaraan",
+      "rating": "Star Rating"
+    },
+    "bookingAvailable": "Booking Tersedia",
+    "bookingDesc": "Pilih tanggal & pesan"
+  },
+  "HowItWorks": {
+    "subtitle": "Proses Cepat & Mudah",
+    "title": "Cara Kerja",
+    "step1": {
+      "title": "Pilih Kendaraan & Tanggal",
+      "desc": "Pilih kendaraan yang Anda inginkan dan tentukan tanggal sewa sesuai kebutuhan perjalanan."
+    },
+    "step2": {
+      "title": "Konfirmasi via WhatsApp",
+      "desc": "Konfirmasi booking Anda melalui WhatsApp untuk proses yang cepat dan mudah."
+    },
+    "step3": {
+      "title": "Ambil & Kendarai",
+      "desc": "Ambil kendaraan di lokasi yang disepakati dan mulai petualangan Anda!"
+    }
+  },
+  "Destinations": {
+    "subtitle": "Eksplorasi",
+    "title": "Destinasi Rekomendasi",
+    "desc": "Temukan destinasi terbaik yang bisa Anda kunjungi dengan kendaraan rental kami",
+    "exploreMore": "Jelajahi Lebih Banyak",
+    "items": {
+      "1": {
+        "title": "Keajaiban Kuno & Jejak Budaya",
+        "desc": "Jelajahi keajaiban candi bersejarah, keraton, dan jalur budaya Yogyakarta yang memukau.",
+        "loc": "Yogyakarta"
+      },
+      "2": {
+        "title": "Warisan Dunia Borobudur",
+        "desc": "Kunjungi Candi Borobudur, keajaiban dunia yang menyimpan kisah peradaban Budha kuno.",
+        "loc": "Magelang"
+      },
+      "3": {
+        "title": "Pesona Pantai Selatan",
+        "desc": "Nikmati keindahan pantai selatan, pegunungan, dan pesona alam Yogyakarta yang menakjubkan.",
+        "loc": "Gunung Kidul"
+      }
+    }
+  },
+  "Vehicles": {
+    "subtitle": "Armada Kami",
+    "title": "Kendaraan Terbaik",
+    "tabs": {
+      "all": "Semua",
+      "motorcycle": "Motor",
+      "car": "Mobil"
+    },
+    "btnBook": "Pesan",
+    "tagPerDay": "/hari"
+  },
+  "WhyUs": {
+    "subtitle": "Keuntungan",
+    "title": "Mengapa Memilih Kami",
+    "desc": "Kami menyediakan layanan rental kendaraan terbaik dengan kualitas premium dan pelayanan profesional.",
+    "items": {
+      "1": {
+        "title": "Armada Kendaraan",
+        "desc": "50+ kendaraan terawat siap menemani perjalanan Anda"
+      },
+      "2": {
+        "title": "Pelanggan Puas",
+        "desc": "500+ pelanggan puas dengan layanan rental kami"
+      },
+      "3": {
+        "title": "Harga Terbaik",
+        "desc": "Harga kompetitif dan transparan tanpa biaya tersembunyi"
+      },
+      "4": {
+        "title": "Rating Bintang",
+        "desc": "Rating 4.9/5 dari pelanggan kami di Google Reviews"
+      }
+    }
+  },
+  "Stats": {
+    "tagline": "Sewa Rental Mobil",
+    "stat1": "Total Rental",
+    "stat2": "Pemesanan Mudah",
+    "trust": "Terpercaya sejak 2020",
+    "support": "Layanan 24/7",
+    "includesTitle": "Kendaraan Termasuk",
+    "includeItems": [
+      "Asuransi Penuh",
+      "Layanan Pelanggan 24/7",
+      "Pembatalan Gratis",
+      "Navigasi GPS",
+      "Bersih & Disanitasi",
+      "Bantuan Darurat di Jalan"
+    ],
+    "btnBooking": "Pesan Sekarang"
+  },
+  "Testimonials": {
+    "subtitle": "Testimoni",
+    "title": "Apa Kata Pelanggan Kami",
+    "desc": "Dengarkan pengalaman langsung dari pelanggan kami yang puas",
+    "items": {
+      "1": {
+        "text": "LA Group ini sangat recommended! Mobilnya bersih, terawat, dan harganya sangat terjangkau. Proses booking via WhatsApp juga mudah banget. Pasti sewa lagi!"
+      },
+      "2": {
+        "text": "Sudah 3 kali sewa di sini dan selalu puas. Kendaraannya selalu dalam kondisi prima, staff-nya ramah, dan pengantaran tepat waktu. Top!"
+      },
+      "3": {
+        "text": "Sewa Avanza buat liburan keluarga ke Jogja. Mobil nyaman, AC dingin, dan dapat harga spesial untuk sewa 3 hari. Terima kasih LA Group!"
+      }
+    }
+  },
+  "Footer": {
+    "desc": "Penyedia jasa rental kendaraan terpercaya di Yogyakarta. Melayani sewa mobil dan motor untuk wisata, bisnis, dan kebutuhan pribadi.",
+    "quickLinks": "Tautan Cepat",
+    "contactUs": "Hubungi Kami",
+    "officeHours": "Jam Operasional",
+    "copyright": "© 2026 LA Group & Andika Trans. Hak cipta dilindungi undang-undang.",
+    "privacy": "Kebijakan Privasi",
+    "terms": "Syarat & Ketentuan"
+  }
+}
