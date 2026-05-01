@@ -25,6 +25,7 @@ export default function AddVehicleForm({ type, nextId, initialData, onClose, onS
     maxSpeed: initialData?.maxSpeed || "",
     seatCapacity: initialData ? String(initialData.seatCapacity) : "",
     selfDrive: initialData?.selfDrive === false ? "NO" : "YES",
+    hasPhoneCharger: initialData?.hasPhoneCharger || false,
     features: initialData?.features || ([] as string[]),
   });
 
@@ -45,6 +46,7 @@ export default function AddVehicleForm({ type, nextId, initialData, onClose, onS
       maxSpeed: formData.maxSpeed,
       seatCapacity: parseInt(formData.seatCapacity) || (formType === "car" ? 4 : 2),
       selfDrive: formData.selfDrive === "YES",
+      hasPhoneCharger: formType === "motorcycle" ? formData.hasPhoneCharger : undefined,
       features: formData.features,
     };
     onSave(newVehicle);
@@ -152,7 +154,7 @@ export default function AddVehicleForm({ type, nextId, initialData, onClose, onS
         </div>
         <div>
           <label className="block text-sm font-semibold text-[var(--text-primary)] mb-2">
-            Self Drive
+            Type Drive
           </label>
           <div className="relative">
             <select
@@ -160,8 +162,8 @@ export default function AddVehicleForm({ type, nextId, initialData, onClose, onS
               onChange={(e) => setFormData({ ...formData, selfDrive: e.target.value })}
               className="w-full bg-[var(--bg-main)] border-none rounded-[var(--radius-md)] px-4 py-2.5 text-sm text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/20 transition-all appearance-none cursor-pointer"
             >
-              <option value="YES">✓ YES</option>
-              <option value="NO">✕ NO</option>
+              <option value="YES">Self Drive</option>
+              <option value="NO">With Drive</option>
             </select>
           </div>
         </div>
@@ -174,6 +176,23 @@ export default function AddVehicleForm({ type, nextId, initialData, onClose, onS
             <span className="text-sm text-[var(--text-muted)]">Upload</span>
           </div>
         </div>
+        {formType === "motorcycle" && (
+          <div>
+            <label className="block text-sm font-semibold text-[var(--text-primary)] mb-2">
+              Charger Phone
+            </label>
+            <div className="relative">
+              <select
+                value={formData.hasPhoneCharger ? "YES" : "NO"}
+                onChange={(e) => setFormData({ ...formData, hasPhoneCharger: e.target.value === "YES" })}
+                className="w-full bg-[var(--bg-main)] border-none rounded-[var(--radius-md)] px-4 py-2.5 text-sm text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/20 transition-all appearance-none cursor-pointer"
+              >
+                <option value="YES">✓ YES</option>
+                <option value="NO">✕ NO</option>
+              </select>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Row 3 - Additional Features */}

@@ -18,6 +18,7 @@ export interface Vehicle {
   seatCapacity?: number;
   selfDrive?: boolean;
   features?: string[];
+  hasPhoneCharger?: boolean;
 }
 
 export interface Transaction {
@@ -68,6 +69,7 @@ export interface TourPackage {
   priceType?: "per_car" | "per_person";
   destinationTags?: string[];
   status?: "active" | "draft";
+  recommendation?: "New" | "Best Seller" | "Recommended" | "None" | null;
 }
 
 export interface TourPackageFormData {
@@ -78,6 +80,7 @@ export interface TourPackageFormData {
   includes: string[];
   excludes: string[];
   priceType: "per_car" | "per_person";
+  recommendation: "New" | "Best Seller" | "Recommended" | "None";
   pricingOptions: Array<{
     id: string;
     type: "per_car" | "per_person";
@@ -110,7 +113,7 @@ export interface RecentBooking {
   id: number;
   vehicleName: string;
   licensePlate: string;
-  vehicleType: VehicleType;
+  vehicleType: string;
   duration: string;
   date: string;
   initial: string;

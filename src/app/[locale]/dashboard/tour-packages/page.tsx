@@ -13,6 +13,8 @@ import TourBookingHistoryTable from "@/components/organisms/TourBookingHistoryTa
 import Input from "@/components/atoms/Input";
 import Pagination from "@/components/molecules/Pagination";
 import CreateTourBookingModal from "@/components/organisms/CreateTourBookingModal";
+import { useSearchParams } from "next/navigation";
+import { recentBookings } from "@/lib/data";
 
 const tabs = [
   { id: "packages", label: "Packages" },
@@ -20,8 +22,9 @@ const tabs = [
 ];
 
 export default function TourPackagesManagement() {
+  const searchParams = useSearchParams();
   const [packages, setPackages] = useState<TourPackage[]>(mockPackages);
-  const [activeTab, setActiveTab] = useState("packages");
+  const [activeTab, setActiveTab] = useState(searchParams.get("tab") || "packages");
   const [searchHistoryQuery, setSearchHistoryQuery] = useState("");
   const [historyPage, setHistoryPage] = useState(1);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -79,6 +82,16 @@ export default function TourPackagesManagement() {
         phone: data.phone,
       };
       setHistoryData((prev) => [newHistoryEntry, ...prev]);
+
+      recentBookings.unshift({
+        id: Date.now(),
+        vehicleName: bookingPackage.title,
+        licensePlate: "Tour Package",
+        vehicleType: "tour",
+        duration: bookingPackage.duration,
+        date: data.date,
+        initial: data.customerName.charAt(0).toUpperCase(),
+      });
     }
   };
 

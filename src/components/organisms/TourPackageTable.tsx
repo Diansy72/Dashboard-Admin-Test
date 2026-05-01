@@ -122,7 +122,14 @@ export default function TourPackageTable({ packages, onEdit, onBooking, onDelete
                       {pkg.id}
                     </td>
                     <td className="px-5 py-4 text-sm font-semibold text-[#1E293B]">
-                      {pkg.title}
+                      <div className="flex items-center gap-2">
+                        {pkg.title}
+                        {pkg.recommendation && pkg.recommendation !== "None" && (
+                          <span className="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-700">
+                            {pkg.recommendation}
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="px-5 py-4">
                       <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-600">
@@ -198,6 +205,7 @@ export default function TourPackageTable({ packages, onEdit, onBooking, onDelete
           { label: "ID", value: detailPkg.id },
           { label: "Package Name", value: detailPkg.title },
           { label: "Category", value: detailPkg.category || "-" },
+          { label: "Recommendation", value: detailPkg.recommendation && detailPkg.recommendation !== "None" ? detailPkg.recommendation : "-" },
           { label: "Price Type", value: detailPkg.priceType === "per_person" ? "Per Person" : "Per Car" },
           { label: "Duration", value: detailPkg.duration },
           { label: "Starting Price", value: formatCurrency(detailPkg.estimatedPrice) },

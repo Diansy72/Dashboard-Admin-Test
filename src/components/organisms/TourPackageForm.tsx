@@ -31,6 +31,7 @@ export default function TourPackageForm({ initialData, onClose, onSave }: TourPa
     includes: initialData?.includes?.length ? initialData.includes : [""],
     excludes: initialData?.excludes?.length ? initialData.excludes : [""],
     priceType: initialData?.priceType || "per_car",
+    recommendation: initialData?.recommendation || "None",
     pricingOptions: initialData?.vehicleOptions?.map(v => ({
       id: v.id,
       type: initialData.priceType || "per_car",
@@ -72,6 +73,7 @@ export default function TourPackageForm({ initialData, onClose, onSave }: TourPa
       })),
       category: formData.category,
       priceType: formData.priceType,
+      recommendation: formData.recommendation === "None" ? null : formData.recommendation,
       destinationTags: formData.destinationTags,
       status: initialData?.status || "active",
     };

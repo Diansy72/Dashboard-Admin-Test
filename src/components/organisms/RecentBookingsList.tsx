@@ -3,7 +3,8 @@
 import React from "react";
 import { cn } from "@/lib/cn";
 import { RecentBooking } from "@/types";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Map, Car, Motorbike } from "lucide-react";
+import { useRouter, useParams } from "next/navigation";
 
 interface RecentBookingsListProps {
   bookings: RecentBooking[];
@@ -12,6 +13,9 @@ interface RecentBookingsListProps {
 export default function RecentBookingsList({
   bookings,
 }: RecentBookingsListProps) {
+  const router = useRouter();
+  const params = useParams();
+  const locale = params?.locale || "id";
   const displayedBookings = bookings.slice(0, 4);
 
   return (
@@ -21,7 +25,7 @@ export default function RecentBookingsList({
           Recent Bookings
         </h2>
         <a
-          href="/id/dashboard/pricelist"
+          href={`/${locale}/dashboard/pricelist`}
           className="text-xs font-semibold text-[var(--primary)] hover:underline flex items-center gap-1"
         >
           View All <ArrowRight size={14} />
@@ -31,9 +35,16 @@ export default function RecentBookingsList({
         {displayedBookings.map((booking) => (
           <div
             key={booking.id}
+            onClick={() => {
+              if (booking.vehicleType === "tour") {
+                router.push(`/${locale}/dashboard/tour-packages?tab=booking-history`);
+              } else {
+                router.push(`/${locale}/dashboard/pricelist?tab=booking-history`);
+              }
+            }}
             className={cn(
               "flex items-center justify-between py-4 px-3 -mx-3 rounded-[var(--radius-lg)] booking-item",
-              "border-b border-[var(--border-light)] last:border-b-0"
+              "border-b border-[var(--border-light)] last:border-b-0 cursor-pointer hover:bg-[var(--bg-main)] transition-colors"
             )}
           >
             <div className="flex items-center gap-3">
@@ -45,8 +56,11 @@ export default function RecentBookingsList({
                 <p className="text-sm font-semibold text-[var(--text-primary)]">
                   {booking.vehicleName}
                 </p>
-                <p className="text-xs text-[var(--text-secondary)]">
-                  {booking.licensePlate} · {booking.vehicleType === "car" ? "Car" : "Motorcycle"}
+                <p className="text-xs text-[var(--text-secondary)] flex items-center gap-1 mt-0.5">
+                  {booking.vehicleType === "tour" ? <Map size={12} /> : booking.vehicleType === "car" ? <Car size={12} /> : <Motorbike size={12} />}
+                  <span>{booking.licensePlate}</span>
+                  <span className="opacity-50">•</span>
+                  <span>{booking.vehicleType === "car" ? "Car" : booking.vehicleType === "motorcycle" ? "Motorcycle" : "Tour Package"}</span>
                 </p>
               </div>
             </div>

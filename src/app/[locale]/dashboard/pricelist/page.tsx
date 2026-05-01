@@ -15,9 +15,10 @@ import CreateBookingModal from "@/components/organisms/CreateBookingModal";
 import AddVehicleForm from "@/components/organisms/AddVehicleForm";
 import BookingHistoryTable from "@/components/organisms/BookingHistoryTable";
 import { Plus } from "lucide-react";
-import { mockVehicles, mockBookingHistory, formatCurrency } from "@/lib/data";
+import { mockVehicles, mockBookingHistory, formatCurrency, recentBookings } from "@/lib/data";
 import { Vehicle, BookingHistory } from "@/types";
 import Badge from "@/components/atoms/Badge";
+import { useSearchParams } from "next/navigation";
 
 const tabs = [
   { id: "vehicles", label: "Vehicles" },
@@ -34,8 +35,9 @@ const statusOptions = [
 const ITEMS_PER_PAGE = 5;
 
 export default function PricelistPage() {
+  const searchParams = useSearchParams();
   const [vehicles, setVehicles] = useState<Vehicle[]>(mockVehicles);
-  const [activeTab, setActiveTab] = useState("vehicles");
+  const [activeTab, setActiveTab] = useState(searchParams.get("tab") || "vehicles");
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
@@ -130,6 +132,16 @@ export default function PricelistPage() {
       };
 
       setBookingHistoryData((prev) => [newHistoryEntry, ...prev]);
+
+      recentBookings.unshift({
+        id: Date.now(),
+        vehicleName: bookedVehicle.name,
+        licensePlate: bookedVehicle.licensePlate,
+        vehicleType: bookedVehicle.type,
+        duration: `${diffDays || 1} days`,
+        date: bookingData.startDate,
+        initial: bookingData.customerName.charAt(0).toUpperCase(),
+      });
     }
   };
 
@@ -290,7 +302,8 @@ export default function PricelistPage() {
           { label: "Fuel Consumption", value: detailVehicle.fuelConsumption || "-" },
           { label: "Max Speed", value: detailVehicle.maxSpeed || "-" },
           { label: "Seat Capacity", value: detailVehicle.seatCapacity ? String(detailVehicle.seatCapacity) : "-" },
-          { label: "Self Drive", value: detailVehicle.selfDrive ? "YES" : (detailVehicle.selfDrive === false ? "NO" : "-") },
+          { label: "Type Drive", value: detailVehicle.selfDrive ? "Self Drive" : (detailVehicle.selfDrive === false ? "With Drive" : "-") },
+          ...(detailVehicle.type === "motorcycle" ? [{ label: "Charger Phone", value: detailVehicle.hasPhoneCharger ? "YES" : "NO" }] : []),
           { label: "Additional Features", value: detailVehicle.features && detailVehicle.features.length > 0 ? detailVehicle.features.join(", ") : "-" },
           { label: "Status", value: <Badge status={detailVehicle.status === "rented" ? "booked" : detailVehicle.status} /> },
           { label: "Created At", value: detailVehicle.createdAt },
