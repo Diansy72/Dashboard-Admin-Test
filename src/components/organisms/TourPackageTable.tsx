@@ -10,9 +10,12 @@ import ConfirmDialog from "@/components/organisms/ConfirmDialog";
 import { Eye, Pencil, Trash2 } from "lucide-react";
 import { TourPackage } from "@/types";
 import { formatCurrency } from "@/lib/data";
+import { cn } from "@/lib/cn";
 
 interface TourPackageTableProps {
   packages: TourPackage[];
+  onEdit: (pkg: TourPackage) => void;
+  onBooking: (pkg: TourPackage) => void;
   onDelete: (id: string) => void;
 }
 
@@ -24,7 +27,7 @@ const statusOptions = [
 
 const ITEMS_PER_PAGE = 5;
 
-export default function TourPackageTable({ packages, onDelete }: TourPackageTableProps) {
+export default function TourPackageTable({ packages, onEdit, onBooking, onDelete }: TourPackageTableProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
@@ -83,12 +86,12 @@ export default function TourPackageTable({ packages, onDelete }: TourPackageTabl
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-[var(--border)]">
-                {["Package Name", "Category", "Starting Price", "Status", "Action"].map(
+              <tr className="bg-[#F8FAFC] border-b border-[var(--border)]">
+                {["ID", "Package Name", "Category", "Price Type", "Starting Price", "Vehicles", "Action"].map(
                   (col) => (
                     <th
                       key={col}
-                      className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wider text-[var(--text-secondary)] bg-[var(--bg-main)]/50"
+                      className="px-5 py-4 text-left text-xs font-bold text-[#64748B] uppercase tracking-wider"
                     >
                       {col}
                     </th>
@@ -96,59 +99,76 @@ export default function TourPackageTable({ packages, onDelete }: TourPackageTabl
                 )}
               </tr>
             </thead>
-            <tbody>
+            <tbody className="bg-white">
               {paginatedPackages.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={5}
+                    colSpan={7}
                     className="px-5 py-8 text-center text-[var(--text-muted)]"
                   >
                     No packages found.
                   </td>
                 </tr>
               ) : (
-                paginatedPackages.map((pkg) => (
+                paginatedPackages.map((pkg, index) => (
                   <tr
                     key={pkg.id}
-                    className="border-b border-[var(--border-light)] last:border-0 hover:bg-[var(--bg-main)]/50 transition-colors"
+                    className={cn(
+                      "hover:bg-[#F8FAFC]/50 transition-colors border-b border-[var(--border)] last:border-0",
+                      index % 2 === 1 && "bg-[#FAFBFC]"
+                    )}
                   >
+                    <td className="px-5 py-4 text-sm font-medium font-mono text-[#64748B]">
+                      {pkg.id}
+                    </td>
+                    <td className="px-5 py-4 text-sm font-semibold text-[#1E293B]">
+                      {pkg.title}
+                    </td>
                     <td className="px-5 py-4">
-                      <div>
-                        <p className="font-semibold text-[var(--text-primary)] mb-0.5">
-                          {pkg.title}
-                        </p>
-                        <p className="text-xs text-[var(--text-secondary)]">
-                          {pkg.duration && `${pkg.duration} • `}{pkg.vehicleOptions?.length || 0} Vehicle Options
-                        </p>
-                      </div>
+                      <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-600">
+                        {pkg.category || "Group"}
+                      </span>
                     </td>
-                    <td className="px-5 py-4 text-sm text-[var(--text-secondary)]">
-                      {pkg.category}
+                    <td className="px-5 py-4">
+                      <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-600">
+                        {pkg.priceType === "per_person" ? "Per Person" : "Per Car"}
+                      </span>
                     </td>
-                    <td className="px-5 py-4 text-sm font-medium text-[var(--text-primary)]">
+                    <td className="px-5 py-4 text-sm font-bold text-[#1E293B]">
                       {formatCurrency(pkg.estimatedPrice)}
                     </td>
-                    <td className="px-5 py-4">
-                      <Badge
-                        status={pkg.status === "active" ? "available" : "service"}
-                      />
+                    <td className="px-5 py-4 text-sm text-[#1E293B]">
+                      {pkg.vehicleOptions?.length || 0}
                     </td>
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-2">
                         <button
-                          onClick={() => setDetailPkg(pkg)}
-                          className="p-2 rounded-[var(--radius-md)] text-[var(--text-secondary)] hover:bg-blue-50 hover:text-blue-600 transition-colors cursor-pointer"
+                          onClick={() => onBooking(pkg)}
+                          className="w-8 h-8 rounded-full flex items-center justify-center bg-green-50 text-green-600 hover:bg-green-100 transition-colors"
+                          title="Create Booking"
                         >
-                          <Eye size={16} />
+                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                         </button>
-                        <button className="p-2 rounded-[var(--radius-md)] text-[var(--text-secondary)] hover:bg-blue-50 hover:text-blue-600 transition-colors cursor-pointer">
-                          <Pencil size={16} />
+                        <button
+                          onClick={() => setDetailPkg(pkg)}
+                          className="w-8 h-8 rounded-full flex items-center justify-center bg-yellow-50 text-yellow-600 hover:bg-yellow-100 transition-colors"
+                          title="View Detail"
+                        >
+                          <Eye size={14} />
+                        </button>
+                        <button 
+                          onClick={() => onEdit(pkg)}
+                          className="w-8 h-8 rounded-full flex items-center justify-center bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors"
+                          title="Edit Package"
+                        >
+                          <Pencil size={14} />
                         </button>
                         <button
                           onClick={() => setDeleteTarget(pkg)}
-                          className="p-2 rounded-[var(--radius-md)] text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
+                          className="w-8 h-8 rounded-full flex items-center justify-center bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
+                          title="Delete Package"
                         >
-                          <Trash2 size={16} />
+                          <Trash2 size={14} />
                         </button>
                       </div>
                     </td>
@@ -175,8 +195,10 @@ export default function TourPackageTable({ packages, onDelete }: TourPackageTabl
         onClose={() => setDetailPkg(null)}
         title="Tour Package Detail"
         items={detailPkg ? [
+          { label: "ID", value: detailPkg.id },
           { label: "Package Name", value: detailPkg.title },
           { label: "Category", value: detailPkg.category || "-" },
+          { label: "Price Type", value: detailPkg.priceType === "per_person" ? "Per Person" : "Per Car" },
           { label: "Duration", value: detailPkg.duration },
           { label: "Starting Price", value: formatCurrency(detailPkg.estimatedPrice) },
           { label: "Status", value: <Badge status={detailPkg.status === "active" ? "available" : "service"}/> },

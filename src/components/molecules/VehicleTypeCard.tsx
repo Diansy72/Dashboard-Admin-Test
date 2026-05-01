@@ -2,7 +2,7 @@
 
 import React from "react";
 import { cn } from "@/lib/cn";
-import { Bike, Car } from "lucide-react";
+import { Motorbike, Car } from "lucide-react";
 import { VehicleType } from "@/types";
 
 interface VehicleTypeCardProps {
@@ -14,7 +14,7 @@ interface VehicleTypeCardProps {
 const typeConfig: Record<VehicleType, { label: string; icon: React.ReactNode }> = {
   motorcycle: {
     label: "Motorcycle",
-    icon: <Bike size={36} />,
+    icon: <Motorbike size={36} />,
   },
   car: {
     label: "Car",

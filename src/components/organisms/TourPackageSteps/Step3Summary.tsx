@@ -75,7 +75,7 @@ export default function Step3Summary({ formData, setFormData }: Step3Props) {
                     {formatCurrency(po.price)}
                   </td>
                   <td className="px-4 py-3 text-[var(--text-secondary)]">
-                    {po.type === "per_car" ? po.vehicleName : `${po.capacity} Persons`}
+                    {po.vehicleName ? `${po.vehicleName} (${po.capacity} Persons)` : `${po.capacity} Persons`}
                   </td>
                   <td className="px-4 py-3 text-right">
                     <button

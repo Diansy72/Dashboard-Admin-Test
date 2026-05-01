@@ -4,7 +4,7 @@ import { Car, Bus, X, Plus, Check } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import { TourPackageFormData } from "@/types";
 
-const CATEGORIES = ["Heritage", "Adventure", "City Tour", "Beach", "Nature"];
+const CATEGORIES = ["Private", "Group"];
 
 interface Step1Props {
   formData: TourPackageFormData;

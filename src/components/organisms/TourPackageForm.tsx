@@ -13,24 +13,31 @@ import Step3Summary from "./TourPackageSteps/Step3Summary";
 import Step4Itinerary from "./TourPackageSteps/Step4Itinerary";
 
 interface TourPackageFormProps {
+  initialData?: TourPackage;
   onClose: () => void;
   onSave: (pkg: TourPackage) => void;
 }
 
-export default function TourPackageForm({ onClose, onSave }: TourPackageFormProps) {
+export default function TourPackageForm({ initialData, onClose, onSave }: TourPackageFormProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 4;
   const [currentTag, setCurrentTag] = useState("");
 
   const [formData, setFormData] = useState<TourPackageFormData>({
-    title: "",
-    category: "",
-    description: "",
-    destinationTags: [],
-    includes: [""],
-    excludes: [""],
-    priceType: "per_car",
-    pricingOptions: [],
+    title: initialData?.title || "",
+    category: initialData?.category || "",
+    description: initialData?.description || "",
+    destinationTags: initialData?.destinationTags || [],
+    includes: initialData?.includes?.length ? initialData.includes : [""],
+    excludes: initialData?.excludes?.length ? initialData.excludes : [""],
+    priceType: initialData?.priceType || "per_car",
+    pricingOptions: initialData?.vehicleOptions?.map(v => ({
+      id: v.id,
+      type: initialData.priceType || "per_car",
+      vehicleName: v.name,
+      capacity: v.capacity,
+      price: v.pricePerDay
+    })) || [],
     itineraryDays: [
       {
         day: 1,
@@ -44,7 +51,8 @@ export default function TourPackageForm({ onClose, onSave }: TourPackageFormProp
     const itineraryString = JSON.stringify(formData.itineraryDays);
 
     const newPkg: TourPackage = {
-      id: `pkg-${Date.now()}`,
+      ...initialData,
+      id: initialData?.id || `pkg-${Date.now()}`,
       title: formData.title,
       description: formData.description, // Can also embed itinerary string here if backend requires text
       imageUrl: "",
@@ -58,13 +66,14 @@ export default function TourPackageForm({ onClose, onSave }: TourPackageFormProp
       excludes: formData.excludes.filter(Boolean),
       vehicleOptions: formData.pricingOptions.map((po) => ({
         id: po.id,
-        name: po.vehicleName || "Custom Package",
+        name: po.vehicleName || "",
         capacity: po.capacity || 0,
         pricePerDay: po.price,
       })),
       category: formData.category,
+      priceType: formData.priceType,
       destinationTags: formData.destinationTags,
-      status: "draft",
+      status: initialData?.status || "active",
     };
     onSave(newPkg);
     onClose();
@@ -74,15 +83,23 @@ export default function TourPackageForm({ onClose, onSave }: TourPackageFormProp
     <div className="bg-white rounded-[var(--radius-xl)] border border-[var(--border)] p-6 mb-8">
       {/* Form Header & Step Indicator */}
       <div className="mb-8">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-bold text-[var(--text-primary)]">
-            New Tour Package — Step {currentStep}/{totalSteps}
-          </h2>
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={onClose}
+              className="p-2 rounded-xl text-[var(--text-secondary)] hover:bg-[var(--bg-main)] transition-colors cursor-pointer"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <h2 className="text-xl font-bold text-[var(--text-primary)]">
+              {initialData ? "Edit Tour Package" : "Create Tour Package"}
+            </h2>
+          </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-[var(--radius-md)] hover:bg-[var(--bg-main)] transition-colors cursor-pointer"
+            className="p-2 rounded-xl text-[var(--text-secondary)] hover:bg-[var(--bg-main)] transition-colors cursor-pointer"
           >
-            <X size={20} className="text-[var(--text-secondary)]" />
+            <X size={20} />
           </button>
         </div>
 

@@ -11,6 +11,8 @@ import {
   Customer,
   Tourist,
   GoogleReview,
+  BookingHistory,
+  TourBookingHistory,
 } from "@/types";
 
 export const mockVehicles: Vehicle[] = [
@@ -238,6 +240,74 @@ export const recentBookings: RecentBooking[] = [
   },
 ];
 
+// Booking History for Pricelist Page
+export const mockBookingHistory: BookingHistory[] = [
+  {
+    id: "bh-001",
+    vehicleName: "Honda Scoopy",
+    licensePlate: "DK 9012 CC",
+    category: "Motorcycle",
+    bookingDate: "2026-03-15",
+    time: "09:00",
+    duration: "3 days",
+    customer: "Sarah Johnson",
+    phone: "+62 812-3456-7890",
+    notes: "Pickup at hotel",
+  },
+  {
+    id: "bh-002",
+    vehicleName: "Toyota Avanza",
+    licensePlate: "AB 1234 CD",
+    category: "Car",
+    bookingDate: "2026-03-14",
+    time: "10:30",
+    duration: "5 days",
+    customer: "Budi Santoso",
+    phone: "+62 821-9876-5432",
+    notes: "Self drive, no driver",
+  },
+  {
+    id: "bh-003",
+    vehicleName: "Honda Beat 110",
+    licensePlate: "AB 5678 EF",
+    category: "Motorcycle",
+    bookingDate: "2026-03-13",
+    time: "14:00",
+    duration: "2 days",
+    customer: "John Doe",
+    phone: "+62 853-1122-3344",
+    notes: "Bring 2 helmets",
+  },
+];
+
+// Tour Booking History
+export const mockTourBookingHistory: TourBookingHistory[] = [
+  {
+    id: "tbh-001",
+    packageName: "Bali Explorer",
+    customerName: "John Doe",
+    priceType: "per_person",
+    vehicleType: "Toyota Hiace",
+    pax: 4,
+    totalPrice: 2000000,
+    bookingDate: "2026-03-20",
+    time: "08:00",
+    phone: "+62 811-2233-4455",
+  },
+  {
+    id: "tbh-002",
+    packageName: "Ubud Culture Tour",
+    customerName: "Jane Smith",
+    priceType: "per_car",
+    vehicleType: "Toyota Avanza",
+    pax: 2,
+    totalPrice: 450000,
+    bookingDate: "2026-03-21",
+    time: "09:00",
+    phone: "+62 812-9988-7766",
+  },
+];
+
 // Destinations
 export const mockDestinations: Destination[] = [
   {
@@ -416,8 +486,9 @@ export const mockPackages: TourPackage[] = [
       { id: "v2", name: "Toyota Innova Reborn", capacity: 7, pricePerDay: 800000 },
       { id: "v3", name: "Isuzu Elf Long", capacity: 19, pricePerDay: 1400000 }
     ],
-    category: "Adventure",
-    destinationTags: ["Pantai Parangtritis", "Gunung Merapi"],
+    category: "Private",
+    priceType: "per_car",
+    destinationTags: ["Uluwatu", "Jimbaran", "Padang Padang"],
     status: "active",
   },
   {
@@ -432,7 +503,7 @@ export const mockPackages: TourPackage[] = [
     minPax: 2,
     maxPax: 6,
     startTime: "09:00 AM",
-    endTime: "07:00 PM",
+    endTime: "18:00",
     includes: [
       "Kendaraan AC Premium",
       "Driver / Guide",
@@ -448,8 +519,9 @@ export const mockPackages: TourPackage[] = [
       { id: "v1", name: "Avanza / Xenia", capacity: 6, pricePerDay: 500000 },
       { id: "v2", name: "Honda Brio", capacity: 4, pricePerDay: 400000 }
     ],
-    category: "City Tour",
-    destinationTags: ["Malioboro", "Taman Sari", "Alun-alun"],
+    category: "Group",
+    priceType: "per_person",
+    destinationTags: ["Ubud", "Tegalalang", "Kintamani"],
     status: "draft",
   }
 ];

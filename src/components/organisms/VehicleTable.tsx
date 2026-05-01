@@ -2,7 +2,7 @@
 
 import React from "react";
 import { cn } from "@/lib/cn";
-import { Eye, Pencil, Trash2, Car, Bike, CalendarCheck } from "lucide-react";
+import { Eye, Pencil, Trash2, Car, Motorbike, CalendarCheck } from "lucide-react";
 import Badge from "@/components/atoms/Badge";
 import IconButton from "@/components/atoms/IconButton";
 import { Vehicle } from "@/types";
@@ -12,19 +12,23 @@ interface VehicleTableProps {
   vehicles: Vehicle[];
   className?: string;
   onView?: (vehicle: Vehicle) => void;
+  onEdit?: (vehicle: Vehicle) => void;
   onDelete?: (vehicle: Vehicle) => void;
   onBooking?: (vehicle: Vehicle) => void;
+  startIndex?: number;
 }
 
 export default function VehicleTable({
   vehicles,
   className,
   onView,
+  onEdit,
   onDelete,
   onBooking,
+  startIndex = 0,
 }: VehicleTableProps) {
   const columns = [
-    "ID",
+    "No",
     "Image",
     "Vehicle Name",
     "Plate Number",
@@ -68,9 +72,9 @@ export default function VehicleTable({
                   index % 2 === 1 && "bg-[#FAFBFC]"
                 )}
               >
-                {/* ID */}
+                {/* No */}
                 <td className="px-5 py-4 text-sm text-[var(--text-secondary)]">
-                  {vehicle.id}
+                  {startIndex + index + 1}
                 </td>
 
                 {/* Image */}
@@ -84,7 +88,7 @@ export default function VehicleTable({
                     {vehicle.type === "car" ? (
                       <Car size={18} />
                     ) : (
-                      <Bike size={18} />
+                      <Motorbike size={18} />
                     )}
                   </div>
                 </td>
@@ -140,6 +144,7 @@ export default function VehicleTable({
                       variant="warning"
                       icon={<Pencil size={16} />}
                       tooltip="Edit vehicle"
+                      onClick={() => onEdit?.(vehicle)}
                     />
                     <IconButton
                       variant="danger"

@@ -13,6 +13,11 @@ export interface Vehicle {
   imageUrl: string | null;
   category: string;
   createdAt: string;
+  fuelConsumption?: string;
+  maxSpeed?: string;
+  seatCapacity?: number;
+  selfDrive?: boolean;
+  features?: string[];
 }
 
 export interface Transaction {
@@ -60,6 +65,7 @@ export interface TourPackage {
   excludes: string[];
   vehicleOptions: PackageVehicleOption[];
   category?: string;
+  priceType?: "per_car" | "per_person";
   destinationTags?: string[];
   status?: "active" | "draft";
 }
@@ -108,6 +114,32 @@ export interface RecentBooking {
   duration: string;
   date: string;
   initial: string;
+}
+
+export interface BookingHistory {
+  id: string;
+  vehicleName: string;
+  licensePlate: string;
+  category: string;
+  bookingDate: string;
+  time: string;
+  duration: string;
+  customer: string;
+  phone: string;
+  notes: string;
+}
+
+export interface TourBookingHistory {
+  id: string;
+  packageName: string;
+  customerName: string;
+  priceType: "per_car" | "per_person";
+  vehicleType: string;
+  pax: number;
+  totalPrice: number;
+  bookingDate: string;
+  time: string;
+  phone: string;
 }
 
 // Landing Page

@@ -12,9 +12,11 @@ import VehicleTypeModal from "@/components/organisms/VehicleTypeModal";
 import DetailModal from "@/components/organisms/DetailModal";
 import ConfirmDialog from "@/components/organisms/ConfirmDialog";
 import CreateBookingModal from "@/components/organisms/CreateBookingModal";
+import AddVehicleForm from "@/components/organisms/AddVehicleForm";
+import BookingHistoryTable from "@/components/organisms/BookingHistoryTable";
 import { Plus } from "lucide-react";
-import { mockVehicles, formatCurrency } from "@/lib/data";
-import { Vehicle } from "@/types";
+import { mockVehicles, mockBookingHistory, formatCurrency } from "@/lib/data";
+import { Vehicle, BookingHistory } from "@/types";
 import Badge from "@/components/atoms/Badge";
 
 const tabs = [
@@ -38,6 +40,9 @@ export default function PricelistPage() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [addingVehicleType, setAddingVehicleType] = useState<"motorcycle" | "car" | null>(null);
+  const [editVehicle, setEditVehicle] = useState<Vehicle | null>(null);
+  const [bookingHistoryData, setBookingHistoryData] = useState<BookingHistory[]>(mockBookingHistory);
 
   // Detail modal
   const [detailVehicle, setDetailVehicle] = useState<Vehicle | null>(null);
@@ -59,8 +64,26 @@ export default function PricelistPage() {
     });
   }, [vehicles, searchQuery, statusFilter]);
 
-  const totalPages = Math.ceil(filteredVehicles.length / ITEMS_PER_PAGE);
+  const filteredHistory = useMemo(() => {
+    return bookingHistoryData.filter((item) => {
+      const matchesSearch =
+        item.vehicleName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.licensePlate.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.customer.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesSearch;
+    });
+  }, [bookingHistoryData, searchQuery]);
+
+  const totalPages = Math.ceil(
+    (activeTab === "vehicles" ? filteredVehicles.length : filteredHistory.length) / ITEMS_PER_PAGE
+  );
+  
   const paginatedVehicles = filteredVehicles.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const paginatedHistory = filteredHistory.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
@@ -76,12 +99,38 @@ export default function PricelistPage() {
     }
   };
 
-  const handleBooking = (vehicleId: number) => {
+  const handleBooking = (
+    vehicleId: number,
+    bookingData: { customerName: string; phone: string; startDate: string; endDate: string; notes: string }
+  ) => {
     setVehicles((prev) =>
       prev.map((v) =>
         v.id === vehicleId ? { ...v, status: "rented" as const } : v
       )
     );
+
+    const bookedVehicle = vehicles.find((v) => v.id === vehicleId);
+    if (bookedVehicle) {
+      const start = new Date(bookingData.startDate);
+      const end = new Date(bookingData.endDate);
+      const diffTime = Math.abs(end.getTime() - start.getTime());
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      const newHistoryEntry: BookingHistory = {
+        id: `bh-${Date.now()}`,
+        vehicleName: bookedVehicle.name,
+        licensePlate: bookedVehicle.licensePlate,
+        category: bookedVehicle.category,
+        bookingDate: bookingData.startDate,
+        time: "08:00",
+        duration: `${diffDays || 1} days`,
+        customer: bookingData.customerName,
+        phone: bookingData.phone || "-",
+        notes: bookingData.notes || "-",
+      };
+
+      setBookingHistoryData((prev) => [newHistoryEntry, ...prev]);
+    }
   };
 
   return (
@@ -113,12 +162,37 @@ export default function PricelistPage() {
       <TabGroup
         tabs={tabs}
         activeTab={activeTab}
-        onTabChange={setActiveTab}
+        onTabChange={(tabId) => {
+          setActiveTab(tabId);
+          setCurrentPage(1);
+          setSearchQuery("");
+        }}
         className="mb-6 w-fit"
       />
 
-      {activeTab === "vehicles" && (
+      {addingVehicleType || editVehicle ? (
+        <AddVehicleForm
+          type={addingVehicleType || undefined}
+          initialData={editVehicle || undefined}
+          nextId={vehicles.length > 0 ? Math.max(...vehicles.map((v) => v.id)) + 1 : 1}
+          onClose={() => {
+            setAddingVehicleType(null);
+            setEditVehicle(null);
+          }}
+          onSave={(newVehicle) => {
+            if (editVehicle) {
+              setVehicles((prev) => prev.map((v) => (v.id === newVehicle.id ? newVehicle : v)));
+            } else {
+              setVehicles((prev) => [newVehicle, ...prev]);
+            }
+            setAddingVehicleType(null);
+            setEditVehicle(null);
+          }}
+        />
+      ) : (
         <>
+          {activeTab === "vehicles" ? (
+            <>
           {/* Filters */}
           <div className="bg-white rounded-t-[var(--radius-xl)] border border-b-0 border-[var(--border)] p-5">
             <div className="flex items-center justify-between gap-4">
@@ -149,36 +223,54 @@ export default function PricelistPage() {
           {/* Table */}
           <VehicleTable
             vehicles={paginatedVehicles}
+            startIndex={(currentPage - 1) * ITEMS_PER_PAGE}
             onView={(v) => setDetailVehicle(v)}
+            onEdit={(v) => setEditVehicle(v)}
             onDelete={(v) => handleDelete(v)}
             onBooking={(v) => setBookingTarget(v)}
           />
+        </>
+      ) : (
+        <>
+          {/* Booking History Filters (only search) */}
+          <div className="bg-white rounded-t-[var(--radius-xl)] border border-b-0 border-[var(--border)] p-5">
+            <div className="w-full max-w-sm">
+              <Input
+                hasSearchIcon
+                placeholder="Cari Nama, Plat, atau Customer..."
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setCurrentPage(1);
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Booking History Table */}
+          <BookingHistoryTable data={paginatedHistory} />
+        </>
+      )}
 
           <Pagination
             className="mt-4 px-5"
             currentPage={currentPage}
             totalPages={totalPages || 1}
-            totalItems={filteredVehicles.length}
+            totalItems={activeTab === "vehicles" ? filteredVehicles.length : filteredHistory.length}
             itemsPerPage={ITEMS_PER_PAGE}
             onPageChange={setCurrentPage}
           />
         </>
       )}
 
-      {activeTab === "booking-history" && (
-        <div className="bg-white rounded-[var(--radius-xl)] border border-[var(--border)] p-12 text-center">
-          <p className="text-[var(--text-secondary)] text-sm">
-            Booking history akan ditampilkan di sini.
-          </p>
-        </div>
-      )}
+
 
       {/* Vehicle Type Modal */}
       <VehicleTypeModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSelect={(type) => {
-          console.log("Selected vehicle type:", type);
+          setAddingVehicleType(type as "motorcycle" | "car");
           setIsModalOpen(false);
         }}
       />
@@ -195,6 +287,11 @@ export default function PricelistPage() {
           { label: "Plate Number", value: detailVehicle.licensePlate },
           { label: "Category", value: detailVehicle.category },
           { label: "Price / Day", value: formatCurrency(detailVehicle.pricePerDay) },
+          { label: "Fuel Consumption", value: detailVehicle.fuelConsumption || "-" },
+          { label: "Max Speed", value: detailVehicle.maxSpeed || "-" },
+          { label: "Seat Capacity", value: detailVehicle.seatCapacity ? String(detailVehicle.seatCapacity) : "-" },
+          { label: "Self Drive", value: detailVehicle.selfDrive ? "YES" : (detailVehicle.selfDrive === false ? "NO" : "-") },
+          { label: "Additional Features", value: detailVehicle.features && detailVehicle.features.length > 0 ? detailVehicle.features.join(", ") : "-" },
           { label: "Status", value: <Badge status={detailVehicle.status === "rented" ? "booked" : detailVehicle.status} /> },
           { label: "Created At", value: detailVehicle.createdAt },
         ] : []}
@@ -214,8 +311,8 @@ export default function PricelistPage() {
         isOpen={!!bookingTarget}
         onClose={() => setBookingTarget(null)}
         vehicle={bookingTarget}
-        onSubmit={(vehicleId) => {
-          handleBooking(vehicleId);
+        onSubmit={(vehicleId, bookingData) => {
+          handleBooking(vehicleId, bookingData);
           setBookingTarget(null);
         }}
       />
